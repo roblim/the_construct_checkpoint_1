@@ -1,0 +1,293 @@
+<?xml version="1.0" ?>
+
+<robot name="rb1_robot">
+
+    <!-- Define materials for visualization -->
+    <material name="blue">
+        <color rgba="0 0 1 1"/>
+    </material>
+
+    <material name="gray">
+        <color rgba="0.40 0.40 0.40 1"/>
+    </material>
+
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <!-- Base footprint link -->
+    <link name="base_footprint">
+    </link>
+
+    <!-- Joint connecting base_link and base_footprint -->
+    <joint name="base_link_plate_joint" type="fixed">
+        <origin rpy="0 0 0" xyz="0 0 0.15" />
+        <parent link="base_footprint" />
+        <child link="base_link" />
+    </joint>
+
+    <!-- Base link -->
+    <link name="base_link">
+        <!-- Visual representation of the base link -->
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.25" length="0.3"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+        <!-- Collision representation of the base link -->
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <cylinder radius="0.25" length="0.3"/>
+            </geometry>
+        </collision>
+        <!-- Inertial properties of the base link -->
+        <inertial>
+            <mass value="20.5" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.47406249999999994" ixy="0.0" ixz="0.0" iyy="0.47406249999999994" iyz="0.0" izz="0.640625" />
+        </inertial>
+    </link>
+
+    <!-- Left wheel link -->
+    <link name="left_wheel">
+        <!-- Visual representation of the left wheel -->
+        <visual>
+            <origin xyz="0 0 0" rpy="-1.575 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.03"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <!-- Collision representation of the left wheel -->
+        <collision>
+            <origin xyz="0 0 0" rpy="-1.575 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.03"/>
+            </geometry>
+        </collision>
+        <!-- Inertial properties of the left wheel -->
+        <inertial>
+            <mass value="1.5" />
+            <origin xyz="0 0 0" rpy="-1.575 0 0" />
+            <inertia ixx="0.00034687500000000007" ixy="0.0" ixz="0.0" iyy="0.00034687500000000007" iyz="0.0" izz="0.0004687500000000001" />
+        </inertial>
+    </link>
+
+    <!-- Joint connecting base_link and left_wheel -->
+    <joint name="base_link_left_wheel_joint" type="continuous">
+        <axis xyz="0 1 0" rpy="0 0 0" />
+        <origin rpy="0 0 0" xyz="0 0.2 -0.15" />
+        <parent link="base_link" />
+        <child link="left_wheel" />
+    </joint>
+
+    <!-- Right wheel link -->
+    <link name="right_wheel">
+        <!-- Visual representation of the right wheel -->
+        <visual>
+            <origin xyz="0 0 0" rpy="-1.575 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.03"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <!-- Collision representation of the right wheel -->
+        <collision>
+            <origin xyz="0 0 0" rpy="-1.575 0 0"/>
+            <geometry>
+                <cylinder radius="0.025" length="0.03"/>
+            </geometry>
+        </collision>
+        <!-- Inertial properties of the right wheel -->
+        <inertial>
+            <mass value="1.5" />
+            <origin xyz="0 0 0" rpy="-1.575 0 0" />
+            <inertia ixx="0.00034687500000000007" ixy="0.0" ixz="0.0" iyy="0.00034687500000000007" iyz="0.0" izz="0.0004687500000000001" />
+        </inertial>
+    </link>
+
+    <!-- Joint connecting base_link and right_wheel -->
+    <joint name="base_link_right_wheel_joint" type="continuous">
+        <axis xyz="0 1 0" rpy="0 0 0" />
+        <origin rpy="0 0 0" xyz="0 -0.2 -0.15" />
+        <parent link="base_link" />
+        <child link="right_wheel" />
+    </joint>
+
+    <!-- Link representing the front caster wheel -->
+    <link name="front_caster">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <sphere radius="0.025" />
+            </geometry>
+            <material name="gray"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <contact_coefficients mu="0.0" kp="0.0" kd="0.0" />
+            <geometry>
+                <sphere radius="0.025" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.00012500000000000003" ixy="0.0" ixz="0.0" iyy="0.00012500000000000003" iyz="0.0" izz="0.00012500000000000003" />
+        </inertial>
+    </link>
+
+    <!-- Joint connecting base_link and front_caster -->
+    <joint name="base_link_front_caster_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="front_caster"/>
+        <origin xyz="0.1 0.0 -0.15" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Link representing the back caster wheel -->
+    <link name="back_caster">
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <sphere radius="0.025" />
+            </geometry>
+            <material name="gray"/>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <contact_coefficients mu="0.0" kp="0.0" kd="0.0" />
+            <geometry>
+                <sphere radius="0.025" />
+            </geometry>
+        </collision>
+        <inertial>
+            <mass value="0.5" />
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <inertia ixx="0.00012500000000000003" ixy="0.0" ixz="0.0" iyy="0.00012500000000000003" iyz="0.0" izz="0.00012500000000000003" />
+        </inertial>
+    </link>
+
+    <!-- Joint connecting base_link and back_caster -->
+    <joint name="base_link_back_caster_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="back_caster"/>
+        <origin xyz="-0.1 0.0 -0.15" rpy="0 0 0"/>
+    </joint>
+
+    <!-- Link representing the laser -->
+    <link name="front_laser">
+    </link>
+
+    <!-- Joint connecting base_link and front_laser -->
+    <joint name="base_link_front_laser_joint" type="fixed">
+        <origin rpy="3.14 0 0" xyz="0.25 0 0.075" />
+        <parent link="base_link" />
+        <child link="front_laser" />
+    </joint>
+
+    <!-- Specify Gazebo color for the base_link -->
+    <gazebo reference="base_link">
+        <material>Gazebo/Black</material>
+    </gazebo>
+
+    <!-- Gazebo friction and material properties for left_wheel -->
+    <gazebo reference="left_wheel">
+        <mu1 value="5.0"/>
+		<mu2 value="0.5"/>
+		<kp value="10000000.0" />
+		<kd value="1.0" />
+		<fdir1 value="1 0 0"/>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <!-- Gazebo friction and material properties for right_wheel -->
+    <gazebo reference="right_wheel">
+        <mu1 value="5.0"/>
+		<mu2 value="0.5"/>
+		<kp value="10000000.0" />
+		<kd value="1.0" />
+		<fdir1 value="1 0 0"/>
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    <!-- Gazebo friction and material properties for front_caster -->
+    <gazebo reference="front_caster">
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <fdir1 value="0 0 1"/>
+        <material>Gazebo/Gray</material>
+    </gazebo>
+
+    <!-- Gazebo friction and material properties for back_caster -->
+    <gazebo reference="back_caster">
+        <mu1 value="0.0"/>
+        <mu2 value="0.0"/>
+        <kp value="10000000.0" />
+        <kd value="100.0" />
+        <fdir1 value="0 0 1"/>
+        <material>Gazebo/Gray</material>
+    </gazebo>
+
+    <!-- Gazebo plugin for differential drive controller -->
+    <gazebo>
+        <plugin filename="libgazebo_ros_diff_drive.so" name="differential_drive_controller">
+            <!-- Plugin parameters -->
+            <alwaysOn>true</alwaysOn>
+            <updateRate>20</updateRate>
+            <leftJoint>base_link_left_wheel_joint</leftJoint>
+            <rightJoint>base_link_right_wheel_joint</rightJoint>
+            <publishWheelTF>true</publishWheelTF>
+            <wheelSeparation>0.4</wheelSeparation>
+            <wheelDiameter>0.05</wheelDiameter>
+            <torque>10</torque>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryTopic>odom</odometryTopic>
+            <odometryFrame>odom</odometryFrame>
+            <robotBaseFrame>base_footprint</robotBaseFrame>
+        </plugin>
+    </gazebo>
+
+    <!-- Gazebo configuration for the front laser sensor -->
+    <gazebo reference="front_laser">
+        <!-- Define a ray sensor named "head_hokuyo_sensor" -->
+        <sensor type="ray" name="head_hokuyo_sensor">
+            <pose>0 0 0 0 0 0</pose>
+            <!-- Enable visualization of the sensor -->
+            <visualize>true</visualize>
+            <update_rate>20</update_rate>
+            <ray>
+                <!-- Configure the scanning properties -->
+                <scan>
+                    <horizontal>
+                        <samples>720</samples>
+                        <resolution>1</resolution>
+                        <min_angle>-1.570796</min_angle>
+                        <max_angle>1.570796</max_angle>
+                    </horizontal>
+                </scan>
+                <!-- Configure the range properties -->
+                <range>
+                    <min>0.05</min>
+                    <max>10.0</max>
+                    <resolution>0.01</resolution>
+                </range>
+                <!-- Configure the noise properties -->
+                <noise>
+                    <type>gaussian</type>
+                    <mean>0.0</mean>
+                    <stddev>0.01</stddev>
+                </noise>
+            </ray>
+            <!-- Attach a Gazebo plugin to the sensor for ROS integration -->
+            <plugin name="gazebo_ros_head_hokuyo_controller" filename="libgazebo_ros_laser.so">
+                <topicName>/scan</topicName>
+                <frameName>front_laser</frameName>
+            </plugin>
+        </sensor>
+    </gazebo>
+</robot>

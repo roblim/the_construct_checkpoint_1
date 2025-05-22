@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<launch>
+
+  <!-- Flag to determine whether to run RViz or not -->
+  <arg name="run_rviz" default="true"/>
+
+  <!-- Load robot description from URDF file -->
+  <param name="robot_description" textfile="$(find my_rb1_description)/urdf/my_rb1_robot.urdf"/>
+
+  <!-- Node to send fake joint values using a GUI -->
+  <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" />
+
+  <!-- Node to combine joint values and publish robot state -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+  <!-- Node to visualize the robot in RViz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find my_rb1_description)/rviz/rviz.rviz" if="$(arg run_rviz)" />
+
+</launch>

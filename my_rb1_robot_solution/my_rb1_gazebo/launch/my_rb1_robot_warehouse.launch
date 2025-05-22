@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- roslaunch arguments -->
+	<arg name="debug" default="false"/>
+	<arg name="world_name" default="$(find rb1_base_gazebo)/worlds/ros2_online_workshop.world"/>
+
+    <!-- Spawn Coordinates -->
+    <arg name="x" default="-0.5"/>
+    <arg name="y" default="-1.35"/>
+    <arg name="z" default="0"/>
+
+    <arg name="model_name" default="my_robot"/>
+
+    <!-- Load robot description from URDF file -->
+    <param name="robot_description" textfile="$(find my_rb1_description)/urdf/my_rb1_robot.urdf"/>
+
+	<!-- Include empty_world.launch with specific arguments -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch">
+		<arg name="world_name" value="$(arg world_name)"/>
+		<arg name="debug" value="$(arg debug)" />
+		<arg name="paused" value="false"/>
+		<arg name="use_sim_time" value="true"/>
+		<arg name="headless" value="false"/>
+		<arg name="verbose" value="true"/>
+	</include>
+
+    <!-- Node to combine joint values -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+    <!-- Node to spawn the robot model in Gazebo -->
+    <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+          args="-urdf -param robot_description -model $(arg model_name) -x $(arg x) -y $(arg y) -z $(arg z)" />
+	
+</launch>

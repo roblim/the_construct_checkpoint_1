@@ -68,16 +68,16 @@ class RotateServiceServer(object):
     def normalize_rad_angle(self, rad_angle: float) -> float:
         return (rad_angle + 2 * pi) % (2 * pi)
 
-    def rotate_robot(self, degrees: int) -> None:
+    def rotate_robot(self, degrees: int, angular_speed: float=0.5) -> None:
         rospy.loginfo("Service Requested")
         abs_rotation_rad: float = abs(radians(degrees))
 
         self.stop_robot()
         rospy.loginfo(f"Attempting to rotate robot by {degrees} degrees.")
         if degrees < 0:
-            self.move_msg.angular.z = -0.2
+            self.move_msg.angular.z = -1 * abs(angular_speed)
         elif degrees > 0:
-            self.move_msg.angular.z = 0.2
+            self.move_msg.angular.z = abs(angular_speed)
 
         rospy.loginfo(f"Normalized Initial Yaw: {rad_to_degrees(self.get_yaw_angle_rad(normalize=True)):.5f} degrees.")
         yaw_delta_abs = 0
@@ -102,7 +102,7 @@ class RotateServiceServer(object):
 
     def callback(self, request: RotateRequest) -> RotateResponse:
         try:
-            self.rotate_robot(degrees=request.degrees) 
+            self.rotate_robot(degrees=request.degrees, angular_speed=1) 
         except rospy.ROSException as e:
             self.stop_robot()
             self._response.result = self.FAILURE_STR

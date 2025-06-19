@@ -102,7 +102,7 @@ class RotateServiceServer(object):
 
     def callback(self, request: RotateRequest) -> RotateResponse:
         try:
-            self.rotate_robot(degrees=request.degrees, angular_speed=1) 
+            self.rotate_robot(degrees=request.degrees, angular_speed=0.5) 
         except rospy.ROSException as e:
             self.stop_robot()
             self._response.result = self.FAILURE_STR
